@@ -1,0 +1,45 @@
+[project]
+name = "imessage-cli"
+version = "0.0.0"
+description = "Workspace root for imessage-mcp + imessage-bridge. Not published; contains legacy local-tool scripts."
+readme = "README.md"
+requires-python = ">=3.13"
+authors = [
+    { name = "moritzhwnr", email = "moritz.hawener@gmail.com" },
+]
+
+# Legacy local-only tools — kept for personal use, NOT published to PyPI.
+# imessage-mcp + imessage-bridge are the two published packages, in packages/*.
+dependencies = [
+    "anthropic>=0.102.0",
+    "httpx>=0.28.1",
+    "imessage-bridge",
+    "imessage-mcp",
+    "imessage-mcp-send",
+    "mcp[cli]>=1.27.1",
+    "openai>=2.36.0",
+    "python-dotenv>=1.2.2",
+    "questionary>=2.1.1",
+    "typer>=0.25.1",
+]
+
+[project.scripts]
+# Legacy scripts — local Mac tools kept in src/imessage_cli/.
+imessage-cli = "imessage_cli:main"
+imessage-ai = "imessage_cli.ai:main"
+
+[tool.uv.workspace]
+members = [
+    "packages/imessage-mcp",
+    "packages/imessage-mcp-send",
+    "packages/imessage-bridge",
+]
+
+[tool.uv.sources]
+imessage-mcp = { workspace = true }
+imessage-mcp-send = { workspace = true }
+imessage-bridge = { workspace = true }
+
+[build-system]
+requires = ["uv_build>=0.11.2,<0.12.0"]
+build-backend = "uv_build"

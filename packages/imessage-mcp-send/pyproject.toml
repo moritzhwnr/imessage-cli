@@ -1,0 +1,34 @@
+[project]
+name = "imessage-mcp-send"
+version = "0.1.0"
+description = "Optional add-on for imessage-mcp: exposes a send_message tool so MCP clients can also send iMessages."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "moritzhwnr", email = "moritz.hawener@gmail.com" },
+]
+requires-python = ">=3.13"
+dependencies = [
+    "imessage-mcp>=0.1.0",
+    "typer>=0.25.1",
+]
+keywords = ["mcp", "imessage", "macos", "claude", "llm", "send"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: MacOS :: MacOS X",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Communications :: Chat",
+]
+
+[project.urls]
+Homepage = "https://github.com/moritzhwnr/imessage-cli"
+Repository = "https://github.com/moritzhwnr/imessage-cli"
+Issues = "https://github.com/moritzhwnr/imessage-cli/issues"
+
+[project.scripts]
+imessage-mcp-send = "imessage_mcp_send.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.11.2,<0.12.0"]
+build-backend = "uv_build"

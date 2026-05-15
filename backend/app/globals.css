@@ -1,0 +1,72 @@
+:root {
+  --bg: #0a0a0c;
+  --bg-elevated: #131318;
+  --bg-card: #16161c;
+  --border: #26262e;
+  --border-strong: #34343e;
+  --text: #f5f5f7;
+  --text-dim: #9ca0a8;
+  --text-faint: #6a6e76;
+  --accent: #0a84ff; /* iMessage blue */
+  --accent-hover: #2898ff;
+  --success: #30d158; /* iMessage green */
+  --danger: #ff453a;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  color-scheme: dark;
+}
+
+/* Subtle radial glow so the page doesn't feel flat */
+body {
+  background:
+    radial-gradient(800px 600px at 50% -100px, rgba(10, 132, 255, 0.18), transparent 60%),
+    radial-gradient(600px 400px at 10% 100%, rgba(48, 209, 88, 0.08), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.12s ease;
+}
+a:hover {
+  color: var(--accent-hover);
+}
+
+code,
+pre {
+  font-family: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+input {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+::selection {
+  background: rgba(10, 132, 255, 0.4);
+  color: var(--text);
+}
