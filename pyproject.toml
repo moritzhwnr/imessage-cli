@@ -5,7 +5,7 @@ description = "Workspace root for imessage-mcp + imessage-bridge. Not published;
 readme = "README.md"
 requires-python = ">=3.13"
 authors = [
-    { name = "moritzhwnr", email = "moritz.hawener@gmail.com" },
+    { name = "moritzhwnr" },
 ]
 
 # Legacy local-only tools — kept for personal use, NOT published to PyPI.

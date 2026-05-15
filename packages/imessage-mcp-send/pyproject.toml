@@ -1,15 +1,15 @@
 [project]
 name = "imessage-mcp-send"
-version = "0.1.0"
+version = "0.1.1"
 description = "Optional add-on for imessage-mcp: exposes a send_message tool so MCP clients can also send iMessages."
 readme = "README.md"
 license = { text = "MIT" }
 authors = [
-    { name = "moritzhwnr", email = "moritz.hawener@gmail.com" },
+    { name = "moritzhwnr" },
 ]
 requires-python = ">=3.13"
 dependencies = [
-    "imessage-mcp>=0.1.0",
+    "imessage-mcp>=0.1.1",
     "typer>=0.25.1",
 ]
 keywords = ["mcp", "imessage", "macos", "claude", "llm", "send"]

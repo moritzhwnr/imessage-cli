@@ -1,15 +1,15 @@
 [project]
 name = "imessage-bridge"
-version = "0.2.0"
+version = "0.2.1"
 description = "Connected CLI for imessage-mcp — stable public broker URL with account-managed API keys."
 readme = "README.md"
 license = { text = "MIT" }
 authors = [
-    { name = "moritzhwnr", email = "moritz.hawener@gmail.com" },
+    { name = "moritzhwnr" },
 ]
 requires-python = ">=3.13"
 dependencies = [
-    "imessage-mcp>=0.1.0",
+    "imessage-mcp>=0.1.1",
     "httpx>=0.28.1",
     "python-dotenv>=1.2.2",
     "questionary>=2.1.1",

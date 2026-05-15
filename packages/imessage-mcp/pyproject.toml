@@ -1,11 +1,11 @@
 [project]
 name = "imessage-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "An MCP server exposing your local iMessage history (macOS, read-only)."
 readme = "README.md"
 license = { text = "MIT" }
 authors = [
-    { name = "moritzhwnr", email = "moritz.hawener@gmail.com" },
+    { name = "moritzhwnr" },
 ]
 requires-python = ">=3.13"
 dependencies = [

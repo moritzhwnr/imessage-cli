@@ -12,11 +12,14 @@ installing `imessage-bridge` get everything in one binary.
 
 from __future__ import annotations
 
+import importlib.util
 import subprocess
+import sys
 from typing import Annotated
 from urllib.parse import urlparse
 
 import httpx
+import questionary
 import typer
 from rich.console import Console
 from rich.panel import Panel
@@ -28,15 +31,10 @@ from imessage_mcp.config import load_or_create_token
 from imessage_mcp.server import allow_tunnel_host, serve_mcp
 from imessage_mcp.tunnel import print_config_panel, spawn_cloudflared
 
-# Optional dependency: if imessage-mcp-send is also installed, importing it
-# registers the `send_message` tool on the shared FastMCP instance. Bridge
-# users who want send via the broker just `uv tool install imessage-mcp-send`
-# alongside this package — no flag, no reconfiguration.
-try:
-    import imessage_mcp_send  # noqa: F401 — side effect: registers tool
-    _HAS_SEND = True
-except ImportError:
-    _HAS_SEND = False
+# Detect (don't import) imessage-mcp-send. We defer the actual import to
+# `serve` so that the side-effect tool registration only happens when the
+# user opts in.
+_SEND_AVAILABLE = importlib.util.find_spec("imessage_mcp_send") is not None
 
 from imessage_bridge._account import (
     API_KEY_FILE,
@@ -77,6 +75,34 @@ app.registered_commands = [
 ]
 
 
+def _resolve_send_choice(flag: bool | None) -> bool:
+    """Decide whether to enable the send_message tool.
+
+    Why: send is a privileged capability — the user must opt in, but we
+    also don't want to force a flag in scripted/launchd runs.
+    """
+    if flag is True:
+        if not _SEND_AVAILABLE:
+            err.print(
+                "[red]--send requires the imessage-mcp-send package.[/red]\n"
+                "Install with: [cyan]uv tool install imessage-mcp-send[/cyan] "
+                "(or add to the same tool as imessage-bridge)."
+            )
+            raise typer.Exit(code=1)
+        return True
+    if flag is False:
+        return False
+    # Flag omitted — default to off, but prompt if we're interactive and
+    # the addon is installed.
+    if not _SEND_AVAILABLE or not sys.stdin.isatty():
+        return False
+    answer = questionary.confirm(
+        "Enable the send_message tool? (lets MCP clients SEND iMessages, not just read)",
+        default=False,
+    ).ask()
+    return bool(answer)
+
+
 @app.command()
 def serve(
     host: Annotated[
@@ -93,6 +119,14 @@ def serve(
     rotate_token: Annotated[
         bool, typer.Option("--rotate-token", help="Generate a fresh local bearer token first.")
     ] = False,
+    send: Annotated[
+        bool | None,
+        typer.Option(
+            "--send/--no-send",
+            help="Register the send_message MCP tool (requires imessage-mcp-send). "
+                 "Prompts if omitted in an interactive shell, otherwise defaults to off.",
+        ),
+    ] = None,
     backend_url: Annotated[
         str,
         typer.Option(
@@ -107,14 +141,17 @@ def serve(
         err.print("Run [cyan]imessage-bridge setup[/cyan] first.")
         raise typer.Exit(code=1)
 
+    enable_send = _resolve_send_choice(send)
+    if enable_send:
+        import imessage_mcp_send  # noqa: F401 — side effect: registers tool
+
     token = load_or_create_token(rotate=rotate_token)
     local_url = f"http://{host}:{port}"
     print_config_panel(local_url, token, public=False)
-    if _HAS_SEND:
-        out.print(
-            "[yellow]send_message tool is registered "
-            "(imessage-mcp-send detected).[/yellow]"
-        )
+    if enable_send:
+        out.print("[yellow]send_message tool registered (read + send).[/yellow]")
+    else:
+        out.print("[dim]Read-only mode (no send_message tool).[/dim]")
 
     tunnel_proc: subprocess.Popen | None = None
     if public:
