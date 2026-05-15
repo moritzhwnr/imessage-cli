@@ -1,6 +1,6 @@
 [project]
 name = "imessage-bridge"
-version = "0.2.1"
+version = "0.2.2"
 description = "Connected CLI for imessage-mcp — stable public broker URL with account-managed API keys."
 readme = "README.md"
 license = { text = "MIT" }
@@ -24,6 +24,9 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Topic :: Communications :: Chat",
 ]
+
+[project.optional-dependencies]
+send = ["imessage-mcp-send>=0.1.1"]
 
 [project.urls]
 Homepage = "https://github.com/moritzhwnr/imessage-cli"

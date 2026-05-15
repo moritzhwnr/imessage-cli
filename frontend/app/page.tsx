@@ -4,9 +4,10 @@ import { CopyButton } from './_components/CopyButton'
 // venv under ~/.local/share/uv/tools, and links `imessage-bridge` onto PATH.
 const INSTALL_CMD = 'uv tool install imessage-bridge'
 
-// Optional add-on: enables the send_message MCP tool. Auto-detected by
-// imessage-bridge at runtime, no flag needed.
-const INSTALL_SEND_CMD = 'uv tool install imessage-mcp-send'
+// Same one-liner, with the `[send]` extra — pulls imessage-mcp-send into the
+// same tool venv so `imessage-bridge serve --send` works. Without the extra,
+// the CLI stays read-only.
+const INSTALL_SEND_CMD = "uv tool install 'imessage-bridge[send]'"
 
 // Don't-have-uv hint. Astral's official installer.
 const INSTALL_UV_CMD = 'curl -LsSf https://astral.sh/uv/install.sh | sh'
@@ -54,9 +55,12 @@ export default function Home() {
             <div style={{ marginTop: 10 }}>
               <CodeBlockWithCopy code={INSTALL_SEND_CMD} />
               <p style={hint}>
-                Optional add-on. <code style={inlineCode}>imessage-bridge</code>{' '}
-                auto-detects it and exposes a <code style={inlineCode}>send_message</code>{' '}
-                tool. <strong>Irreversible writes</strong> — install only if you understand the risk.
+                The <code style={inlineCode}>[send]</code> extra installs the
+                add-on into the same tool environment. <code style={inlineCode}>serve</code>{' '}
+                then asks whether to enable the <code style={inlineCode}>send_message</code>{' '}
+                tool — or pass <code style={inlineCode}>--send</code> /{' '}
+                <code style={inlineCode}>--no-send</code> to skip the prompt.{' '}
+                <strong>Irreversible writes</strong> — install only if you understand the risk.
               </p>
             </div>
           </details>
