@@ -276,6 +276,7 @@ source = { editable = "packages/imessage-bridge" }
 dependencies = [
     { name = "httpx" },
     { name = "imessage-mcp" },
+    { name = "python-dotenv" },
     { name = "questionary" },
     { name = "rich" },
     { name = "typer" },
@@ -285,6 +286,7 @@ dependencies = [
 requires-dist = [
     { name = "httpx", specifier = ">=0.28.1" },
     { name = "imessage-mcp", editable = "packages/imessage-mcp" },
+    { name = "python-dotenv", specifier = ">=1.2.2" },
     { name = "questionary", specifier = ">=2.1.1" },
     { name = "rich", specifier = ">=14.0.0" },
     { name = "typer", specifier = ">=0.25.1" },

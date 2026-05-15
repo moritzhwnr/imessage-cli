@@ -1,19 +1,25 @@
 import { CopyButton } from './_components/CopyButton'
 
-// The install command we tell users to run. Adjust when the package is
-// published — `uv tool install imessage-mcp` will be the eventual command.
-const INSTALL_CMD =
-  'git clone https://github.com/moritzhwnr/imessage-cli && cd imessage-cli && uv tool install --editable .'
+// One-liner via uv. Pulls down the wheel from PyPI, drops a tool-isolated
+// venv under ~/.local/share/uv/tools, and links `imessage-bridge` onto PATH.
+const INSTALL_CMD = 'uv tool install imessage-bridge'
+
+// Optional add-on: enables the send_message MCP tool. Auto-detected by
+// imessage-bridge at runtime, no flag needed.
+const INSTALL_SEND_CMD = 'uv tool install imessage-mcp-send'
+
+// Don't-have-uv hint. Astral's official installer.
+const INSTALL_UV_CMD = 'curl -LsSf https://astral.sh/uv/install.sh | sh'
 
 // Replace with the actual Poke recipe URL once it exists.
 const POKE_RECIPE_URL = 'https://poke.com'
 
 // The CLI flow a new user runs after install.
-const SIGNUP_FLOW = `imessage-mcp signup           # create account, save your API key
-imessage-mcp serve --public   # spin up the tunnel and register it`
+const SIGNUP_FLOW = `imessage-bridge signup           # create account, save your API key
+imessage-bridge serve --public   # spin up the tunnel and register it`
 
 // What an existing user runs to mint a fresh API key.
-const ROTATE_KEY_CMD = 'imessage-mcp new-key'
+const ROTATE_KEY_CMD = 'imessage-bridge new-key'
 
 export default function Home() {
   return (
@@ -38,12 +44,31 @@ export default function Home() {
           <CardHeader
             kicker="01"
             title="Install the CLI"
-            sub="Runs locally on your Mac. Your messages never leave it."
+            sub="One command from PyPI. Runs locally — your messages never leave your Mac."
           />
           <CodeBlockWithCopy code={INSTALL_CMD} />
-          <ul style={hintList}>
-            <li>↳ Requires Python 3.13+ and <a href="https://docs.astral.sh/uv/">uv</a>.</li>
-          </ul>
+          <details>
+            <summary style={summary}>
+              Also want to <strong>send</strong> messages from your AI?
+            </summary>
+            <div style={{ marginTop: 10 }}>
+              <CodeBlockWithCopy code={INSTALL_SEND_CMD} />
+              <p style={hint}>
+                Optional add-on. <code style={inlineCode}>imessage-bridge</code>{' '}
+                auto-detects it and exposes a <code style={inlineCode}>send_message</code>{' '}
+                tool. <strong>Irreversible writes</strong> — install only if you understand the risk.
+              </p>
+            </div>
+          </details>
+          <details>
+            <summary style={summary}>Don&apos;t have <code style={inlineCode}>uv</code>?</summary>
+            <div style={{ marginTop: 10 }}>
+              <CodeBlockWithCopy code={INSTALL_UV_CMD} />
+              <p style={hint}>
+                Official Astral installer. Adds Python 3.13 automatically if missing.
+              </p>
+            </div>
+          </details>
           <a
             href="https://github.com/moritzhwnr/imessage-cli"
             style={ghostLink}
@@ -111,7 +136,7 @@ function Hero() {
         where your AI lives.
       </h1>
       <p style={subtitle}>
-        <code style={inlineCode}>imessage-mcp</code> exposes your local iMessage
+        <code style={inlineCode}>imessage-bridge</code> exposes your local iMessage
         history to any MCP-capable AI — Claude, Poke, Cursor — through a stable
         broker URL. Messages never leave your Mac. The broker is just plumbing.
       </p>

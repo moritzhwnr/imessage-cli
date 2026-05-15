@@ -7,7 +7,7 @@ If you just want a local MCP server with no third-party service, install [`imess
 ## What you get
 
 - **Account-managed API keys.** Sign up once, mint and revoke keys from the CLI.
-- **Stable broker URL.** `https://imessage-bridge.example.com/api/mcp` — works in any MCP client (Claude Desktop, Cursor, Poke). Survives cloudflared restarts because the CLI re-registers automatically.
+- **Stable broker URL.** `https://imessage-cli.vercel.app/api/mcp` — works in any MCP client (Claude Desktop, Cursor, Poke). Survives cloudflared restarts because the CLI re-registers automatically.
 - **All of `imessage-mcp`.** `setup`, `token`, and `serve` all live in this binary too.
 
 ## Install
@@ -39,6 +39,23 @@ imessage-bridge serve --public       # tunnel + register with broker
 | `serve [--public]` | Run the MCP server, optionally tunneling + registering |
 | `setup` | Open macOS Full Disk Access pane |
 | `token [--rotate]` | Print/rotate the local bearer token |
+
+## Configuration
+
+The default broker is the public one at `https://imessage-cli.vercel.app`. Override for local dev or a self-hosted broker via either:
+
+**Environment variable** (preferred, scoped per shell):
+
+```bash
+export IMESSAGE_BRIDGE_BACKEND_URL=http://localhost:3000
+```
+
+**`.env` file** — loaded automatically from either of:
+
+- `~/.config/imessage-bridge/.env` — persists across shell sessions
+- `./.env` — for local dev (loaded from the current working directory)
+
+See `.env.example` for the available keys. Values already in the shell environment take precedence over `.env` files.
 
 ## License
 

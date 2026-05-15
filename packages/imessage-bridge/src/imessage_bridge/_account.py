@@ -7,6 +7,7 @@ from pathlib import Path
 
 import questionary
 import typer
+from dotenv import load_dotenv
 from rich.console import Console
 
 out = Console()
@@ -16,9 +17,22 @@ CONFIG_DIR = Path.home() / ".config" / "imessage-bridge"
 API_KEY_FILE = CONFIG_DIR / "api_key"
 USER_ID_FILE = CONFIG_DIR / "user_id"
 
+# .env loading — two locations, last-write-wins is fine here:
+#   1) ~/.config/imessage-bridge/.env  → the user's persistent override
+#   2) ./.env in the CURRENT working directory → dev convenience
+# load_dotenv silently no-ops when the file doesn't exist, so this is
+# zero-cost for users who don't use .env files at all. We don't override
+# values already in the real environment — exported vars still win.
+load_dotenv(CONFIG_DIR / ".env", override=False)
+load_dotenv(override=False)
+
+# Resolution order:
+#   $IMESSAGE_BRIDGE_BACKEND_URL  → explicit, project- or user-scoped override
+#   $IMESSAGE_MCP_BACKEND_URL     → legacy fallback (kept for the mcp package)
+#   hardcoded production URL      → what end users get out of the box
 DEFAULT_BACKEND_URL = os.environ.get(
     "IMESSAGE_BRIDGE_BACKEND_URL",
-    os.environ.get("IMESSAGE_MCP_BACKEND_URL", "http://localhost:3000"),
+    os.environ.get("IMESSAGE_MCP_BACKEND_URL", "https://imessage-cli.vercel.app"),
 )
 
 

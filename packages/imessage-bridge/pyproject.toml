@@ -11,6 +11,7 @@ requires-python = ">=3.13"
 dependencies = [
     "imessage-mcp>=0.1.0",
     "httpx>=0.28.1",
+    "python-dotenv>=1.2.2",
     "questionary>=2.1.1",
     "rich>=14.0.0",
     "typer>=0.25.1",
