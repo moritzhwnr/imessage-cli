@@ -115,6 +115,19 @@ export default function Home() {
           <a href={POKE_RECIPE_URL} target="_blank" rel="noreferrer" style={primaryLink}>
             Open Poke recipe →
           </a>
+          <ol style={pokeSteps}>
+            <li>
+              Click <strong>Open Poke recipe</strong> above. Poke will ask for
+              your <code style={inlineCode}>API key</code>.
+            </li>
+            <li>
+              Back in your terminal, copy the key from the panel printed by{' '}
+              <code style={inlineCode}>imessage-bridge serve --public</code>.
+              Lost it? Run <code style={inlineCode}>imessage-bridge new-key</code>{' '}
+              to mint a fresh one.
+            </li>
+            <li>Paste it into Poke and save. That&apos;s it.</li>
+          </ol>
           <p style={hint}>
             Don&apos;t use Poke? The same URL + key works in Claude Desktop,
             Cursor, and any other MCP-capable client.
@@ -322,6 +335,17 @@ const hintList: React.CSSProperties = {
   fontSize: 13,
   lineHeight: 1.8,
   paddingLeft: 4,
+}
+
+const pokeSteps: React.CSSProperties = {
+  color: 'var(--text-dim)',
+  fontSize: 13,
+  lineHeight: 1.65,
+  paddingLeft: 20,
+  margin: 0,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 8,
 }
 
 const summary: React.CSSProperties = {
