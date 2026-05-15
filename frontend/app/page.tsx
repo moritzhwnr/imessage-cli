@@ -12,7 +12,7 @@ const INSTALL_SEND_CMD = 'uv tool install imessage-mcp-send'
 const INSTALL_UV_CMD = 'curl -LsSf https://astral.sh/uv/install.sh | sh'
 
 // Replace with the actual Poke recipe URL once it exists.
-const POKE_RECIPE_URL = 'https://poke.com'
+const POKE_RECIPE_URL = 'https://poke.com/r/WH5CcXwhy5f'
 
 // The CLI flow a new user runs after install.
 const SIGNUP_FLOW = `imessage-bridge signup           # create account, save your API key

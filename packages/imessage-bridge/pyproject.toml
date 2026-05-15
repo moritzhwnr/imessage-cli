@@ -1,6 +1,6 @@
 [project]
 name = "imessage-bridge"
-version = "0.1.0"
+version = "0.2.0"
 description = "Connected CLI for imessage-mcp — stable public broker URL with account-managed API keys."
 readme = "README.md"
 license = { text = "MIT" }
